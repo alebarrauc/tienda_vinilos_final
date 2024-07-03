@@ -1,77 +1,38 @@
-<div class="container d-flex justify-content-center mt-5 background">
-  <form [formGroup]="contactForm" class="row g-3 needs-validation" novalidate (submit)="enviar($event)">
-    <!--NEW CODE-->
-    <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Nombre Usuario </label>
-        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Your Name"
-              formControlName="name"
-              [ngClass]="{'is-invalid' : hasErrors('name', 'required')}">
-          <!-- Se agregó el mensaje de error para el campo 'name' -->
-          <div *ngIf="hasErrors('name', 'required')" class="text-danger">
-              You have to complete this field
-          </div>
-    </div>
-    <!--END NEW CODE-->
+<form [formGroup]="contactForm" (ngSubmit)="enviar($event)">
+  <div>
+    <label for="name">Name:</label>
+    <input id="name" formControlName="name" />
+    <div *ngIf="hasErrors('name', 'required')">Name is required</div>
+  </div>
 
-    <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">Email </label>
-          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com"
-              formControlName="email"
-              [ngClass]="{'is-invalid' : hasErrors('email', 'required') || hasErrors('email', 'email')}">
-          <div *ngIf="hasErrors('email', 'required')" class="text-danger">
-              You have to complete this field
-          </div>
-          <div *ngIf="hasErrors('email', 'email')" class="text-danger">
-              Invalid email format
-          </div>
-      </div>
+  <div>
+    <label for="email">Email:</label>
+    <input id="email" formControlName="email" />
+    <div *ngIf="hasErrors('email', 'required')">Email is required</div>
+    <div *ngIf="hasErrors('email', 'email')">Invalid email format</div>
+  </div>
 
-      <div class="mb-3">
-        <label for="birthdate" class="form-label">Birthdate</label>
-        <input type="date" class="form-control" id="birthdate" formControlName="birthdate"
-            [ngClass]="{'is-invalid' : hasErrors('birthdate', 'required') || hasErrors('birthdate', 'underage')}">
-        <!-- Se agregó el mensaje de error para el campo 'birthdate' -->
-        <div *ngIf="hasErrors('birthdate', 'required')" class="text-danger">
-            You have to select your birthdate
-        </div>
-        <div *ngIf="hasErrors('birthdate', 'underage')" class="text-danger">
-            You must be at least 13 years old to register
-        </div>
-    </div>
+  <div>
+    <label for="birthdate">Birthdate:</label>
+    <input id="birthdate" formControlName="birthdate" type="date" />
+    <div *ngIf="hasErrors('birthdate', 'required')">Birthdate is required</div>
+    <div *ngIf="hasErrors('birthdate', 'underage')">You must be at least 13 years old</div>
+  </div>
 
-    <!--NEW CODE-->
-    <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Your Password"
-            formControlName="password"
-            [ngClass]="{'is-invalid' : hasErrors('password', 'required') || hasErrors('password', 'minlength') || hasErrors('password', 'maxlength')}">
-        <div *ngIf="hasErrors('password', 'required')" class="text-danger">
-            You have to complete this field
-        </div>
-        <div *ngIf="hasErrors('password', 'minlength')" class="text-danger">
-            Password no puede tener menos de 7 caracteres.
-        </div>
-        <div *ngIf="hasErrors('password', 'maxlength')" class="text-danger">
-          Password no puede tener menos de 18 caracteres.
-        </div>
-    </div>
+  <div>
+    <label for="password">Password:</label>
+    <input id="password" formControlName="password" type="password" />
+    <div *ngIf="hasErrors('password', 'required')">Password is required</div>
+    <div *ngIf="hasErrors('password', 'minlength')">Password must be at least 7 characters</div>
+    <div *ngIf="hasErrors('password', 'maxlength')">Password must be at most 18 characters</div>
+  </div>
 
-    <div class="mb-3">
-        <label for="confirmPassword" class="form-label">Confirm Password</label>
-        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Your Password"
-            formControlName="confirmPassword"
-            [ngClass]="{'is-invalid' : hasErrors('confirmPassword', 'required') || hasErrors('confirmPassword', 'passwordMismatch')}">
-        <div *ngIf="hasErrors('confirmPassword', 'required')" class="text-danger">
-            You have to complete this field
-        </div>
-        <div *ngIf="hasErrors('confirmPassword', 'passwordMismatch')" class="text-danger">
-            Passwords do not match
-        </div>
-    </div>
-    <!--END NEW CODE-->
+  <div>
+    <label for="confirmPassword">Confirm Password:</label>
+    <input id="confirmPassword" formControlName="confirmPassword" type="password" />
+    <div *ngIf="hasErrors('confirmPassword', 'required')">Confirm Password is required</div>
+    <div *ngIf="hasErrors('confirmPassword', 'passwordMismatch')">Passwords must match</div>
+  </div>
 
-      <div class="col-12">
-          <button class="btn btn-primary" type="submit">Submit</button>
-      </div>
-  </form>
-</div>
+  <button type="submit">Submit</button>
+</form>

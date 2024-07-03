@@ -7,7 +7,7 @@ import { ReactiveFormsModule, FormGroup, FormBuilder, Validators, AbstractContro
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, NgClass],
   templateUrl: './formulario.component.html',
-  styleUrl: './formulario.component.css'
+  styleUrls: ['./formulario.component.css'] // Corrección: styleUrls en lugar de styleUrl
 })
 export class RegisterComponent implements OnInit {
 
@@ -53,11 +53,31 @@ export class RegisterComponent implements OnInit {
   enviar(event: Event) {
     event.preventDefault();
     if (this.contactForm.valid) {
-      console.log(this.contactForm.value);
+      const formValue = this.contactForm.value;
+      const jsonData = {
+        name: formValue.name,
+        email: formValue.email,
+        birthdate: formValue.birthdate,
+        password: formValue.password,
+        rol: 'user' // Valor por defecto
+      };
+
+      this.downloadJson(jsonData, 'user_data.json'); // Llamada para descargar el JSON
     } else {
       this.contactForm.markAllAsTouched();
       console.error('Formulario inválido');
     }
+  }
+
+  downloadJson(data: any, filename: string) {
+    const jsonStr = JSON.stringify(data, null, 2); // Convierte los datos a JSON
+    const blob = new Blob([jsonStr], { type: 'application/json' }); // Crea un Blob con los datos JSON
+    const url = window.URL.createObjectURL(blob); // Crea una URL para el Blob
+    const a = document.createElement('a'); // Crea un elemento <a>
+    a.href = url; // Establece el href del <a> a la URL del Blob
+    a.download = filename; // Establece el atributo de descarga con el nombre del archivo
+    a.click(); // Simula un clic en el <a> para iniciar la descarga
+    window.URL.revokeObjectURL(url); // Revoca la URL del Blob
   }
 
   ngOnInit(): void {}
